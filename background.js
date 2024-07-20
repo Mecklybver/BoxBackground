@@ -14,38 +14,56 @@ export class Background {
         }
     this.background = {
       img: document.querySelector("img"),
-      width: 200,
+      width: 360,
       height: 200,
       x: 0,
       y: 0,
-      backgroundLimitX: document.querySelector("img").width - 200,
-      backgroundLimitY: document.querySelector("img").height - 200,
     };
-    this.speed = 10;
+      this.backgroundLimitX= document.querySelector("img").width - this.background.width;
+      this.backgroundLimitY= document.querySelector("img").height - this.background.height;
+      this.speed = 10;
 
     addEventListener("keydown", (e) => {
       switch (e.key) {
-          case "ArrowRight":
-          if (this.outerSquare.x < window.innerWidth - this.outerSquare.width)
+        case "ArrowRight":
+          if (
+            this.outerSquare.x < window.innerWidth - this.outerSquare.width &&
+            this.innerSquare.x > 0
+          )
             this.outerSquare.x += this.speed;
-          else if (this.background.x < this.background.backgroundLimitX)
-                  this.background.x += this.speed;
+          else if (
+            this.background.x < this.backgroundLimitX &&
+            this.innerSquare.x > 0
+          )
+            this.background.x += this.speed;
+          else {
+            this.innerSquare.x += this.speed;
+          }
           break;
           case "ArrowLeft":
-          if (this.outerSquare.x > 0) this.outerSquare.x -= this.speed;
-          else if (this.background.x - this.speed >= 0)
+          if (this.outerSquare.x > 0 && this.innerSquare.x < 0) this.outerSquare.x -= this.speed;
+          else if (this.background.x - this.speed >= 0 && this.innerSquare.x < 0)
             this.background.x -= this.speed;
+          else {
+           this.innerSquare.x -= this.speed
+          }
           break;
           case "ArrowUp":
-          if (this.outerSquare.y > 0) this.outerSquare.y -= this.speed;
-          else if (this.background.y - this.speed >= 0)
+          if (this.outerSquare.y > 0 && this.innerSquare.y < 0) this.outerSquare.y -= this.speed;
+          else if (this.background.y - this.speed >= 0 && this.innerSquare.y < 0)
             this.background.y -= this.speed;
+          else {
+            this.innerSquare.y -= this.speed
+          }
           break;
           case "ArrowDown":
-          if (this.outerSquare.y < window.innerHeight - this.outerSquare.height)
+          if (this.outerSquare.y < window.innerHeight - this.outerSquare.height && this.innerSquare.y > 0)
             this.outerSquare.y += this.speed;
-          else if (this.background.y < this.background.backgroundLimitY)
+          else if (this.background.y < this.backgroundLimitY && this.innerSquare.y > 0)
             this.background.y += this.speed;
+          else {
+            this.innerSquare.y += this.speed
+          }
           break;
         default:
           break;
@@ -82,6 +100,7 @@ export class Background {
       this.innerSquare.width,
       this.innerSquare.height
     );
-    ctx.fill();
+      ctx.fill();
+
   }
 }
