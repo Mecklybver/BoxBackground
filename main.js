@@ -1,8 +1,7 @@
-import { Background } from "./background.js";
+import { Game } from "./game.js";
 
 
-
-const background = new Background();
+const game = new Game();
 
 const ctx = document.createElement("canvas").getContext("2d");
 ctx.canvas.width = window.innerWidth;
@@ -19,7 +18,7 @@ function animate(stampTime=0 ) {
     previousTime = stampTime;
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    background.draw(ctx, deltaTime);
+    game.draw(ctx, deltaTime);
 
 
 }

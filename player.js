@@ -1,3 +1,4 @@
+
 export class Player {
   constructor(background) {
     this.background = background;
@@ -12,13 +13,13 @@ export class Player {
       MaxSpriteX: 2,
       MaxSpriteY: 3,
     };
-    this.outerSquare = {
+    this.cameraSquare = {
       width: innerWidth * 0.8,
       height: innerHeight * 0.8,
       x: innerWidth * 0.1,
       y: innerHeight * 0.1,
     };
-    this.innerSquare = {
+    this.playerSquare = {
       x: 0,
       y: 0,
       width: 52,
@@ -67,43 +68,44 @@ export class Player {
     ctx.beginPath();
     ctx.strokeStyle = "red";
     ctx.rect(
-      this.outerSquare.x,
-      this.outerSquare.y,
-      this.outerSquare.width,
-      this.outerSquare.height
+      this.cameraSquare.x,
+      this.cameraSquare.y,
+      this.cameraSquare.width,
+      this.cameraSquare.height
     );
-    ctx.stroke();
+    // ctx.stroke();
     ctx.beginPath();
     ctx.rect(
-      this.outerSquare.x +
-        this.outerSquare.width * 0.5 +
-        this.innerSquare.x -
-        this.innerSquare.width * 0.5,
-      this.outerSquare.y +
-        this.outerSquare.height * 0.5 +
-        this.innerSquare.y -
-        this.innerSquare.height * 0.5,
-      this.innerSquare.width,
-      this.innerSquare.height
+      this.cameraSquare.x +
+        this.cameraSquare.width * 0.5 +
+        this.playerSquare.x -
+        this.playerSquare.width * 0.5,
+      this.cameraSquare.y +
+        this.cameraSquare.height * 0.5 +
+        this.playerSquare.y -
+        this.playerSquare.height * 0.5,
+      this.playerSquare.width,
+      this.playerSquare.height
     );
-    ctx.fill();
+    // ctx.fill();
     ctx.drawImage(
       this.player.img,
       this.player.x + this.player.SpriteX * this.player.width,
       this.player.y + this.player.SpriteY * this.player.height,
       this.player.width,
       this.player.height,
-      this.outerSquare.x +
-        this.outerSquare.width * 0.5 +
-        this.innerSquare.x -
-        this.innerSquare.width * 0.5,
-      this.outerSquare.y +
-        this.outerSquare.height * 0.5 +
-        this.innerSquare.y -
-        this.innerSquare.height * 0.5,
+      this.cameraSquare.x +
+        this.cameraSquare.width * 0.5 +
+        this.playerSquare.x -
+        this.playerSquare.width * 0.5,
+      this.cameraSquare.y +
+        this.cameraSquare.height * 0.5 +
+        this.playerSquare.y -
+        this.playerSquare.height * 0.5,
       this.player.width,
       this.player.height
     );
+
   }
 
   update(ctx, deltaTime) {
@@ -121,73 +123,73 @@ export class Player {
 
     if (this.key.has("ArrowRight")) {
       if (
-        this.outerSquare.x < window.innerWidth - this.outerSquare.width &&
-        this.innerSquare.x > 0
+        this.cameraSquare.x < window.innerWidth - this.cameraSquare.width &&
+        this.playerSquare.x > 0
       ) {
-        this.outerSquare.x += this.speed;
+        this.cameraSquare.x += this.speed;
       } else if (
         this.background.x < this.backgroundLimitX &&
-        this.innerSquare.x > 0
+        this.playerSquare.x > 0
       ) {
         this.background.x += this.speed * 0.5;
       } else if (
-        this.innerSquare.x <
-        this.outerSquare.width * 0.5 - this.innerSquare.width * 0.5
+        this.playerSquare.x <
+        this.cameraSquare.width * 0.5 - this.playerSquare.width * 0.5
       ) {
-        this.innerSquare.x += this.speed;
+        this.playerSquare.x += this.speed;
       }
     }
 
     if (this.key.has("ArrowLeft")) {
-      if (this.outerSquare.x > 0 && this.innerSquare.x < 0) {
-        this.outerSquare.x -= this.speed;
+      if (this.cameraSquare.x > 0 && this.playerSquare.x < 0) {
+        this.cameraSquare.x -= this.speed;
       } else if (
         this.background.x - this.speed >= 0 &&
-        this.innerSquare.x < 0
+        this.playerSquare.x < 0
       ) {
         this.background.x -= this.speed * 0.5;
       } else if (
-        this.innerSquare.x >
-        -this.outerSquare.width * 0.5 + this.innerSquare.width * 0.5
+        this.playerSquare.x >
+        -this.cameraSquare.width * 0.5 + this.playerSquare.width * 0.5
       ) {
-        this.innerSquare.x -= this.speed;
+        this.playerSquare.x -= this.speed;
       }
     }
 
     if (this.key.has("ArrowUp")) {
-      if (this.outerSquare.y > 0 && this.innerSquare.y < 0) {
-        this.outerSquare.y -= this.speed;
+      if (this.cameraSquare.y > 0 && this.playerSquare.y < 0) {
+        this.cameraSquare.y -= this.speed;
       } else if (
         this.background.y - this.speed >= 0 &&
-        this.innerSquare.y < 0
+        this.playerSquare.y < 0
       ) {
         this.background.y -= this.speed;
       } else if (
-        this.innerSquare.y >
-        -this.outerSquare.height * 0.5 + this.innerSquare.height * 0.5
+        this.playerSquare.y >
+        -this.cameraSquare.height * 0.5 + this.playerSquare.height * 0.5
       ) {
-        this.innerSquare.y -= this.speed;
+        this.playerSquare.y -= this.speed;
       }
     }
 
     if (this.key.has("ArrowDown")) {
       if (
-        this.outerSquare.y < window.innerHeight - this.outerSquare.height &&
-        this.innerSquare.y > 0
+        this.cameraSquare.y < window.innerHeight - this.cameraSquare.height &&
+        this.playerSquare.y > 0
       ) {
-        this.outerSquare.y += this.speed;
+        this.cameraSquare.y += this.speed;
       } else if (
         this.background.y < this.backgroundLimitY - this.speed &&
-        this.innerSquare.y > 0
+        this.playerSquare.y > 0
       ) {
         this.background.y += this.speed;
       } else if (
-        this.innerSquare.y <
-        this.outerSquare.height * 0.5 -
-          this.innerSquare.height * 0.5 -
+        this.playerSquare.y <
+        this.cameraSquare.height * 0.5 -
+          this.playerSquare.height * 0.5 -
           this.speed
       ) {
-        this.innerSquare.y += this.speed;
+        this.playerSquare.y += this.speed;
       }
     }
 
